@@ -1,0 +1,100 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: Turbo Cloud App APIs
+  license:
+    name: MIT
+host: localhost:1337
+basePath: /api/v1
+tags:
+- name: "user"
+  description: "Operations about user"
+  externalDocs:
+    description: "Find out more about our store"
+    url: "http://swagger.io"
+schemes:
+- "https"
+- "http"
+securityDefinitions:  
+  JWT:
+    description: Set authorization
+    type: apiKey  
+    in: header  
+    name: Authorization  
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /user/login:
+    post:
+      tags:
+      - "user"
+      summary: "Login user"
+      description: "This can only be done by the user by entring phone_number."
+      operationId: "Login"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Logined user object"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        default:
+          description: "successful operation"
+  /user/otpVerify:
+    post:
+      security:
+        - JWT: []
+      tags:
+      - "user"
+      summary: "Verify user's OTP"
+      description: "This can only be done by the user by entring user id and OTP."
+      operationId: "VerifyOtp"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Verified user object"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        default:
+          description: "successful operation"
+definitions:
+  User:
+    type: "object"
+    properties:
+      _id:
+        type: "string"
+      phone_number:
+        type: "integer"
+        format: "int64"
+      email_id:
+        type: "string"
+      created_at:
+        type: 'string'
+      
+      updated_at:
+        type: 'string'
+      password:
+        type: 'string'
+      first_name:
+        type: 'string'
+      last_name:
+        type: 'string'
+      avatar_url:
+        type: 'string'
+      fcm_token:
+        type: 'string'
+      is_active:
+        type: 'boolean'
+      otp:
+        type: 'string'
